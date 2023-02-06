@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 import math
-#import vlc
+# import vlc
 from os import walk
 from GestureAPI import *
 
@@ -29,12 +29,12 @@ finger_thresh_u = 3.8
 radius_thresh = 0.04
 finger_ct_history = [0,0]
 first_iteration=True
-#play_list = []
-#track_no = "char"
+# play_list = []
+# track_no = "char"
 
 gestureDictionary = defineGesture()
 frame_gesture = Gesture("frame_gesture")
-#player = vlc.MediaPlayer()
+# player = vlc.MediaPlayer()
 
 #------------------------Function declaration------------------------#
 
@@ -180,15 +180,15 @@ def find_gesture(frame_in,finger,palm):
 
 # 8. instantiating music player and creating play list
 
-# def play_music():
-#     track_ct = 1
-#     for (dirpath, dirnames, filenames) in walk('C:\Users\Mr. Pacific\Desktop\Major Project\music library'):
-#             play_list.extend(filenames)
-#             for i in play_list:
-#                 print (str(track_ct)+' => '+i+'\n')
-#                 track_ct += 1
-#     track_ct = 1
-#     print('Enter song no.')
+def play_music():
+    track_ct = 1
+    for (dirpath, dirnames, filenames) in walk('C:\Users\Mr. Pacific\Desktop\Major Project\music library'):
+            play_list.extend(filenames)
+            for i in play_list:
+                print (str(track_ct)+' => '+i+'\n')
+                track_ct += 1
+    track_ct = 1
+    print('Enter song no.')
    
 #--------------------------------BEGIN----------------------------#
 
@@ -207,7 +207,7 @@ while(cam.isOpened()):
 
     if(bg_captured):
         fg_frame = remove_bg(frame)
-        #cv2.imshow('foreground model',fg_frame)
+        cv2.imshow('foreground model',fg_frame)
         
     if(not(capture_done and bg_captured)):
         if(not bg_captured):
@@ -231,7 +231,7 @@ while(cam.isOpened()):
             
     else:
         frame = hand_threshold(fg_frame, hand_histogram)
-        #cv2.imshow('medianblur',frame)
+        cv2.imshow('medianblur',frame)
         contour_frame = np.copy(frame)
         image, contours, hierarchy = cv2.findContours(contour_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         found, hand_contour = hand_contour_find(contours)
@@ -277,17 +277,17 @@ while(cam.isOpened()):
         bg_captured = 0
         track_no = "char"
         track_ct = 1
-        #player.release()
+        player.release()
 
-    # Preparing music player
-    # elif interrupt & 0xFF == ord('p'):
-    #     print ('Initialising Music Player....\n\n')
-    #     if bg_captured == 1 & capture_done == 1:
-    #         play_music()
-    #         track_no = input()
-    #         track_no = play_list[track_no-1]
+    #Preparing music player
+    elif interrupt & 0xFF == ord('p'):
+        print ('Initialising Music Player....\n\n')
+        if bg_captured == 1 & capture_done == 1:
+            play_music()
+            track_no = input()
+            track_no = play_list[track_no-1]
         
 # Releasing Camera & destroting all windows
-#player.release()
+player.release()
 cam.release()
 cv2.destroyAllWindows()
